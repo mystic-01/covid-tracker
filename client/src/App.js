@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./App.css";
 
+import { Cards, Chart, CountryPicker } from "./components";
+import { fetchData } from "./api/index";
+
 const App = () => {
+  const [covidData, setCovidData] = useState({});
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await fetchData();
+      setCovidData(data);
+    };
+    getData();
+  }, []);
+
   return (
     <div className="app">
-      <h1>Covid - 19</h1>
+      <Cards covidData={covidData} />
+      <CountryPicker />
+      <Chart />
     </div>
   );
 };
