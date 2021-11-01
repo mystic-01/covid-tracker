@@ -1,42 +1,66 @@
 import React from "react";
 import { Card, CardContent, Typography, Grid } from "@material-ui/core";
+import CountUp from "react-countup";
 
 import "./Cards.css";
 
-const Cards = ({ covidData }) => {
+const Cards = ({ covidData: { confirmed, recovered, deaths, lastUpdate } }) => {
   const displayData = [
     {
       title: "Infected",
-      data: "",
-      date: "",
+      data: confirmed?.value,
+      date: new Date(lastUpdate).toDateString(),
       subtitle: "Number of active cases of COVID-19",
+      className: "cards__infected",
     },
     {
       title: "Recovered",
-      data: "",
-      date: "",
+      data: recovered?.value,
+      date: new Date(lastUpdate).toDateString(),
       subtitle: "Number of recoveries from COVID-19",
+      className: "cards__recovered",
     },
     {
       title: "Deaths",
-      data: "",
-      date: "",
+      data: deaths?.value,
+      date: new Date(lastUpdate).toDateString(),
       subtitle: "Number of deaths caused by COVID-19",
+      className: "cards__deaths",
     },
   ];
+
   return (
     <div className="cards">
-      <Grid container spacing={3}>
+      <Grid container spacing={3} justifyContent="space-between">
         {displayData.map((item) => (
-          <Grid item component={Card} key={item.title}>
-            <Typography color="textSecondary">{item.title}</Typography>
-            <Typography variant="h5">{item.data}</Typography>
-            <Typography color="textSecondary">{item.date}</Typography>
-            <Typography variant="body1">{item.subtitle}</Typography>
+          <Grid
+            item
+            xs={12}
+            md={3}
+            component={Card}
+            className={`cards__card ${item.className}`}
+            key={item.title}
+          >
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                {item.title}
+              </Typography>
+              <Typography variant="h5">
+                <CountUp
+                  start={0}
+                  end={item.data}
+                  duration={2}
+                  separator={","}
+                />
+              </Typography>
+              <Typography color="textSecondary" gutterBottom>
+                {item.date}
+              </Typography>
+              <Typography variant="body1">{item.subtitle}</Typography>
+            </CardContent>
           </Grid>
         ))}
       </Grid>
-      <CardContent />
     </div>
   );
 };

@@ -4,6 +4,9 @@ import "./App.css";
 
 import { Cards, Chart, CountryPicker } from "./components";
 import { fetchData } from "./api/index";
+import { ThemeProvider } from "@material-ui/core";
+
+import theme from "./theme";
 
 const App = () => {
   const [covidData, setCovidData] = useState({});
@@ -17,11 +20,13 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app">
-      <Cards covidData={covidData} />
-      <CountryPicker />
-      <Chart />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="app">
+        <Cards covidData={covidData} />
+        <CountryPicker />
+        <Chart />
+      </div>
+    </ThemeProvider>
   );
 };
 
